@@ -200,6 +200,7 @@ NoxSolver::~NoxSolver()
 #endif
 }
 
+#ifdef HAVE_TEUCHOS
 void NoxSolver::set_precond(Teuchos::RCP<Precond> &pc)
 {
 #ifdef HAVE_NOX
@@ -207,6 +208,7 @@ void NoxSolver::set_precond(Teuchos::RCP<Precond> &pc)
   interface->set_precond(pc);
 #endif
 }
+#endif
 
 void NoxSolver::set_precond(const char *pc)
 {
