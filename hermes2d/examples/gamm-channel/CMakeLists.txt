@@ -17,3 +17,9 @@ include (../CMake.common)
 
 target_link_libraries(${PROJECT_NAME} ${PYTHON_LIBRARIES})
 add_dependencies(${PROJECT_NAME} _hermes2d)
+
+cython_add_module(_forms forms.cpp)
+target_link_libraries(_forms ${HERMES_REAL_BIN})
+add_dependencies(_forms _hermes2d)
+
+set(CYTHON_INCLUDE_DIRECTORIES ../../hermes_common)
