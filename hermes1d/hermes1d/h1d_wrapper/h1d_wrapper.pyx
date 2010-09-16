@@ -375,3 +375,31 @@ def assemble_projection_matrix_rhs(Mesh mesh, Matrix A,
     _A = f
     hermes1d.assemble_projection_matrix_rhs(mesh.thisptr, A.thisptr,
         &(rhs[0]), &fn, prj_type)
+
+cdef class Quad1D:
+    cdef hermes1d.Quad1DStd *thisptr
+
+    def __cinit__(self):
+        self.thisptr = new hermes1d.Quad1DStd()
+
+    def __dealloc__(self):
+        del self.thisptr
+
+    def get_points(self, int order):
+        cdef hermes1d.double2 *p = self.thisptr.get_points(order)
+        n = self.get_num_points(order)
+        x = empty(n)
+        w = empty(n)
+        for i in range(n):
+            x[i] = p[i][0]
+            w[i] = p[i][1]
+        return x, w
+
+    def get_num_points(self, int order):
+        return self.thisptr.get_num_points(order)
+
+    def get_max_order(self):
+        return self.thisptr.get_max_order()
+
+    def get_ref_vertex(self, int n):
+        return self.thisptr.get_ref_vertex(n)

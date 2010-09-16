@@ -9,6 +9,7 @@ cdef extern from "hermes1d.h":
 
     ctypedef double double4[4]
     ctypedef double double3[3]
+    ctypedef double double2[2]
     ctypedef int int3[3]
     ctypedef int int2[2]
 
@@ -67,3 +68,9 @@ cdef extern from "hermes1d.h":
     ctypedef void(*ExactFunction)(int n, double x[], double f[], double dfdx[])
     void assemble_projection_matrix_rhs(Mesh *mesh, c_Matrix *A, double *rhs,
             ExactFunction fn, int projection_type) except +
+
+    cdef cppclass Quad1DStd:
+        double2* get_points(int order)
+        int get_num_points(int order)
+        int get_max_order()
+        double get_ref_vertex(int n)
