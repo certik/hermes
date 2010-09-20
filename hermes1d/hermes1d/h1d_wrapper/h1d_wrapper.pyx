@@ -4,6 +4,7 @@
 # Email: hermes1d@googlegroups.com, home page: http://hpfem.org/
 
 from math cimport sin, cos, sqrt
+import cython
 
 from numpy import empty, array
 from numpy cimport ndarray
@@ -385,11 +386,12 @@ cdef class Quad1D:
     def __dealloc__(self):
         del self.thisptr
 
+    @cython.boundscheck(False)
     def get_points(self, int order):
         cdef hermes1d.double2 *p = self.thisptr.get_points(order)
-        n = self.get_num_points(order)
-        x = empty(n)
-        w = empty(n)
+        cdef unsigned i, n = self.get_num_points(order)
+        cdef ndarray[double, mode="c"] x = empty(n)
+        cdef ndarray[double, mode="c"] w = empty(n)
         for i in range(n):
             x[i] = p[i][0]
             w[i] = p[i][1]
