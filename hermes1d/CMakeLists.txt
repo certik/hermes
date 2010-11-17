@@ -67,6 +67,7 @@ endif(RELEASE)
 if(WITH_PYTHON)
     find_package(Python REQUIRED)
     find_package(NumPy REQUIRED)
+    find_package(Cython REQUIRED)
 
     include_directories(${PYTHON_INCLUDE_PATH} ${NUMPY_INCLUDE_PATH})
 endif(WITH_PYTHON)
