@@ -9,10 +9,6 @@ if(NOT CYTHON_INCLUDE_DIRECTORIES)
     set(CYTHON_INCLUDE_DIRECTORIES .)
 endif(NOT CYTHON_INCLUDE_DIRECTORIES)
 
-macro(CYTHON_ADD_MODULE_COMPILE name)
-    add_python_library(${name} ${name}.cpp ${ARGN})
-endmacro(CYTHON_ADD_MODULE_COMPILE)
-
 # Cythonizes the .pyx files into .cpp file (but doesn't compile it)
 macro(CYTHON_ADD_MODULE_PYX name)
     add_custom_command(
@@ -26,5 +22,5 @@ endmacro(CYTHON_ADD_MODULE_PYX)
 # Cythonizes and compiles a .pyx file
 macro(CYTHON_ADD_MODULE name)
     CYTHON_ADD_MODULE_PYX(${name} ${ARGN})
-    CYTHON_ADD_MODULE_COMPILE(${name} ${ARGN})
+    add_python_library(${name} ${name}.cpp ${ARGN})
 endmacro(CYTHON_ADD_MODULE)
