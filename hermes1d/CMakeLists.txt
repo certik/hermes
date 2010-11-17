@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 2.6)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/../hermes_common/cmake)
 
-set(WITH_PYTHON no)
+set(WITH_PYTHON yes)
 set(DEBUG yes)
 set(RELEASE no)
 set(WITH_EXAMPLES yes)
@@ -63,9 +63,6 @@ endif(DEBUG)
 if(RELEASE)
         set(HERMES_BIN hermes1d)
 endif(RELEASE)
-
-find_package(PythonLibs REQUIRED)
-find_package(NumPy REQUIRED)
 
 if(WITH_PYTHON)
     find_package(Python REQUIRED)
