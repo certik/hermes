@@ -41,6 +41,7 @@
 #include "../hermes_common/Teuchos_RCP.hpp"
 // I don't know if this is good practice to put it here:
 using Teuchos::RCP;
+using Teuchos::Ptr;
 using Teuchos::rcp;
 using Teuchos::null;
 
