@@ -47,7 +47,6 @@ ENDIF()
 add_custom_target(test COMMAND ctest)
 add_custom_target(test-quick COMMAND ctest -LE slow -j9)
 
-message("well: ${HERMES_COMMON_DIR}/Teuchos_Ptr.cpp")
 # Teuchos RCP
 SET(TEUCHOS_SOURCES
   ${HERMES_COMMON_DIR}/Teuchos_Ptr.cpp
