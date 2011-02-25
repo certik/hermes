@@ -337,17 +337,19 @@ def radial_schroedinger_equation_adapt(params, error_tol=1e-8):
         pass
         #plot_conv(conv_graph, exact=exact_energies, l=l)
     energies = [e for e in energies if e < 0]
-    return energies, eigs[:len(energies)]
+    eigs = eigs[:len(energies)]
+    plot_eigs(mesh, zip(energies, eigs))
+    return energies, eigs
 
 def calculate_states():
     states = {}
     eigenvectors = {}
     max_l = 0
-    for l in range(100):
+    for l in range(1):
         p2 = dict(l=l, Z=47, a=0, b=104.315255921, el_num=6,
                 el_order=10, eig_num=6, mesh_uniform=True,
                 adapt_type="romanowski", eqn_type="R")
-        e, eigs = radial_schroedinger_equation_adapt(p2, error_tol=1e-6)
+        e, eigs = radial_schroedinger_equation_adapt(p2, error_tol=1e-3)
         if e == []:
             break
         states[l] = e

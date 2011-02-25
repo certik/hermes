@@ -13,7 +13,7 @@ def plot_eigs(mesh, eigs):
     #try:
     #    from jsplot import plot, show
     #except ImportError:
-    from pylab import plot, show, legend
+    from pylab import plot, show, legend, savefig
     import numpy
     from _forms import potential_python
     l = Linearizer(mesh)
@@ -26,4 +26,5 @@ def plot_eigs(mesh, eigs):
     y = [potential_python(_) for _ in x]
     plot(x, y, "k-", label="V(r)")
     legend()
-    show()
+    print "saving"
+    savefig("graph.png")
