@@ -20,15 +20,19 @@ class InterpolatedFunction(object):
         return self._y[_i]
 
 def construct_density(Es, data):
-    radial_mesh = arange(0, 20, 1.)
-    density = zeros(len(radial_mesh), "d")
+    radial_mesh = arange(0, 20, 0.1)
+    density1 = zeros(len(radial_mesh), "d")
+    density2 = zeros(len(radial_mesh), "d")
     for E, i in Es:
         print i
         E, n, l, eig, r = data[i]
         s = InterpolatedFunction(r, eig)
         y = s(radial_mesh)
-        density += y**2
-    return radial_mesh, density
+        if n == l + 1:
+            density1 += y**2
+        else:
+            density2 += y**2
+    return radial_mesh, density1, density2
 
 f = File("data2.hdf5")
 max_l = int(array(f["/dft/max_l"]))
@@ -82,7 +86,9 @@ for i, (E, n, l, eig, r) in enumerate(my_states):
     Es.extend([(E, i)] * fn)
 Es = Es[:240]
 
-r, R = construct_density(Es, my_states)
+r, R1, R2 = construct_density(Es, my_states)
 from pylab import plot, show
-plot(r, R)
+plot(r, R1)
+plot(r, R2)
+plot(r, R1 + R2)
 show()
