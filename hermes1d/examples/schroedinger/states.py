@@ -87,8 +87,9 @@ for i, (E, n, l, eig, r) in enumerate(my_states):
 Es = Es[:240]
 
 r, R1, R2 = construct_density(Es, my_states)
-from pylab import plot, show
-plot(r, R1)
-plot(r, R2)
-plot(r, R1 + R2)
+from pylab import plot, show, legend
+plot(r, R1, label="n = l + 1")
+plot(r, R2, label="n = l + 2")
+plot(r, R1 + R2, label="total")
+legend()
 show()
