@@ -1,5 +1,15 @@
-from numpy import array
+from numpy import array, zeros
 from h5py import File
+
+def construct_density(Es, data):
+    #E, n, l, eig, r = data[0]
+    #density = zeros(len(r), "d")
+    for E, i in Es:
+        E, n, l, eig, r = data[i]
+        print len(r), len(eig)
+        #density += eig**2
+    #return r, density
+
 f = File("data2.hdf5")
 max_l = int(array(f["/dft/max_l"]))
 states = {}
@@ -16,13 +26,13 @@ orbital_name = ["s", "p", "d", "f", "g", "h", "i", "k", "l", "m", "n",
 my_states = []
 for l in range(max_l):
     n = 1 + l
-    for E in states[l]:
-        my_states.append((E, n, l))
+    for E, eig in zip(states[l], eigs[l]):
+        my_states.append((E, n, l, eig, r[l]))
         n += 1
 
 print "-"*80
 total_electrons = 0
-for E, n, l in my_states:
+for E, n, l, eig, r in my_states:
     print "(l=%d, n=%d)" % (l, n),
     print "%d%s" % (n, orbital_name[l]),
     print "E=%f" % E,
@@ -36,7 +46,7 @@ print "-"*80
 print "Sorted by energy"
 my_states.sort(key=lambda state: state[0])
 total_electrons = 0
-for E, n, l in my_states:
+for E, n, l, eig, r in my_states:
     print "(l=%d, n=%d)" % (l, n),
     print "%d%s" % (n, orbital_name[l]),
     print "E=%f" % E,
@@ -45,3 +55,11 @@ for E, n, l in my_states:
     total_electrons += deg
     print "total electrons = %d" % total_electrons
     n += 1
+
+Es = []
+for i, (E, n, l, eig, r) in enumerate(my_states):
+    fn = 2*(2*l + 1)
+    Es.extend([(E, i)] * fn)
+Es = Es[:240]
+
+construct_density(Es, my_states)
