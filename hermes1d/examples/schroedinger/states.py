@@ -2,12 +2,12 @@ from numpy import array, zeros
 from h5py import File
 
 def construct_density(Es, data):
-    #E, n, l, eig, r = data[0]
-    #density = zeros(len(r), "d")
+    from pylab import plot, show
     for E, i in Es:
         E, n, l, eig, r = data[i]
-        print len(r), len(eig)
+        plot(r, eig)
         #density += eig**2
+    show()
     #return r, density
 
 f = File("data2.hdf5")
