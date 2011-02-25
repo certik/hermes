@@ -355,11 +355,11 @@ def calculate_states():
     states = {}
     eigenvectors = {}
     max_l = 0
-    for l in range(1):
+    for l in range(100):
         p2 = dict(l=l, Z=47, a=0, b=104.315255921, el_num=6,
                 el_order=10, eig_num=6, mesh_uniform=True,
                 adapt_type="romanowski", eqn_type="R")
-        e, r, eigs = radial_schroedinger_equation_adapt(p2, error_tol=1e-3)
+        e, r, eigs = radial_schroedinger_equation_adapt(p2, error_tol=1e-6)
         if e == []:
             break
         states[l] = e
