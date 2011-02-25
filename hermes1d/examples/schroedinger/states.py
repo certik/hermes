@@ -1,4 +1,14 @@
-from data import max_l, states
+from numpy import array
+from h5py import File
+f = File("data2.hdf5")
+max_l = int(array(f["/dft/max_l"]))
+states = {}
+eigs = {}
+r = {}
+for l in range(max_l+1):
+    states[l] = array(f["/dft/%d/E" % l])
+    r[l] = array(f["/dft/%d/r" % l])
+    eigs[l] = array(f["/dft/%d/eigs" % l])
 
 orbital_name = ["s", "p", "d", "f", "g", "h", "i", "k", "l", "m", "n",
         "o", "p"]
