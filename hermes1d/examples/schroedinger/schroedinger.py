@@ -345,7 +345,7 @@ def radial_schroedinger_equation_adapt(params, error_tol=1e-8):
     for eig in eigs:
         r, y = l.get_xy(eig, 0, 100)
         _eigs.append(y)
-    return energies, r, eigs
+    return energies, r, _eigs
 
 def get_eigs(mesh, eigs):
     import numpy
