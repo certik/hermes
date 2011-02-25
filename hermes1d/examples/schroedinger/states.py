@@ -1,14 +1,34 @@
-from numpy import array, zeros
+from numpy import array, zeros, arange
+from scipy.interpolate import InterpolatedUnivariateSpline, UnivariateSpline
 from h5py import File
 
+class InterpolatedFunction(object):
+
+    def __init__(self, x, y):
+        self._x = x
+        self._y = y
+
+    def __call__(self, a):
+        return array([self.get_value(x) for x in a])
+
+    def get_value(self, v):
+        _i = -1
+        for i in range(len(self._x)):
+            if v < self._x[i]:
+                _i = i
+                break
+        return self._y[_i]
+
 def construct_density(Es, data):
-    from pylab import plot, show
+    radial_mesh = arange(0, 20, 1.)
+    density = zeros(len(radial_mesh), "d")
     for E, i in Es:
+        print i
         E, n, l, eig, r = data[i]
-        plot(r, eig)
-        #density += eig**2
-    show()
-    #return r, density
+        s = InterpolatedFunction(r, eig)
+        y = s(radial_mesh)
+        density += y**2
+    return radial_mesh, density
 
 f = File("data2.hdf5")
 max_l = int(array(f["/dft/max_l"]))
@@ -62,4 +82,7 @@ for i, (E, n, l, eig, r) in enumerate(my_states):
     Es.extend([(E, i)] * fn)
 Es = Es[:240]
 
-construct_density(Es, my_states)
+r, R = construct_density(Es, my_states)
+from pylab import plot, show
+plot(r, R)
+show()
