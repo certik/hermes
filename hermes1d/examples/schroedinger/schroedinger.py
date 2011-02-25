@@ -6,8 +6,9 @@ sys.path.insert(0, "../..")
 from numpy import arange, empty, zeros, array
 from pylab import plot, show, savefig, grid, gca, legend, figure, title, \
         xlabel, ylabel
+from h5py import File
 
-from hermes1d import Mesh
+from hermes1d import Mesh, Linearizer
 from hermes1d.solvers.eigen import solve_eig_numpy, solve_eig_pysparse, \
         solve_eig_scipy
 from hermes1d.h1d_wrapper.h1d_wrapper import FESolution, calc_err_est, \
@@ -338,8 +339,17 @@ def radial_schroedinger_equation_adapt(params, error_tol=1e-8):
         #plot_conv(conv_graph, exact=exact_energies, l=l)
     energies = [e for e in energies if e < 0]
     eigs = eigs[:len(energies)]
-    plot_eigs(mesh, zip(energies, eigs))
-    return energies, eigs
+    l = Linearizer(mesh)
+    r = None
+    _eigs = []
+    for eig in eigs:
+        r, y = l.get_xy(eig, 0, 100)
+        _eigs.append(y)
+    return energies, r, eigs
+
+def get_eigs(mesh, eigs):
+    import numpy
+    return r, _eigs
 
 def calculate_states():
     states = {}
@@ -349,11 +359,11 @@ def calculate_states():
         p2 = dict(l=l, Z=47, a=0, b=104.315255921, el_num=6,
                 el_order=10, eig_num=6, mesh_uniform=True,
                 adapt_type="romanowski", eqn_type="R")
-        e, eigs = radial_schroedinger_equation_adapt(p2, error_tol=1e-3)
+        e, r, eigs = radial_schroedinger_equation_adapt(p2, error_tol=1e-3)
         if e == []:
             break
         states[l] = e
-        eigenvectors[l] = eigs
+        eigenvectors[l] = r, eigs
         max_l = l
 
     print states
@@ -362,6 +372,17 @@ def calculate_states():
     open("data.py", "w").write("""\
 max_l = %(max_l)s
 states = %(states)s""" % {"max_l": max_l, "states": states})
+    print "Saving to data2.hdf5"
+    f = File("data2.hdf5", "w")
+    f.create_group("dft")
+    f.create_dataset("/dft/max_l", data=max_l)
+    for l in range(max_l+1):
+        f.create_group("/dft/%d" % l)
+        E = states[l]
+        r, eigs = eigenvectors[l]
+        f.create_dataset("/dft/%d/E" % l, data=E)
+        f.create_dataset("/dft/%d/r" % l, data=r)
+        f.create_dataset("/dft/%d/eigs" % l, data=eigs)
 
 def main():
     calculate_states()
