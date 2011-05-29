@@ -162,7 +162,7 @@ set(WITH_MUMPS              NO)
 # set(SCALAPACK_LIBRARIES   -lscalapack -lblacs)
 
 # Enable support for Trilinos solvers.
-set(WITH_TRILINOS           NO)
+set(WITH_TRILINOS           YES)
 
 
 ### Mesh format ###
