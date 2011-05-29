@@ -128,7 +128,7 @@ set(REPORT_TIME             NO)   #time will not be measured and time measuremen
 
 #### Solvers ###
 # Standard UMFPACK.
-set(WITH_UMFPACK            NO)
+set(WITH_UMFPACK            YES)
 
 # First option enables sequential SuperLU, which should reside in SUPERLU_ROOT/lib
 # and SUPERLU_ROOT/include. If SUPERLU_ROOT is not provided, the library will be searched
