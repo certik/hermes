@@ -72,10 +72,10 @@ set(WITH_H1D                  YES)
 set(WITH_H2D                  YES)
 	# Real/complex version of the library (you can build either one or both):
 	set(H2D_REAL              YES)
-	set(H2D_COMPLEX           YES)
+    set(H2D_COMPLEX           NO)
 	# Release and debug versions.
 	set(H2D_DEBUG             YES)
-	set(H2D_RELEASE           YES)
+    set(H2D_RELEASE           NO)
 	# Optional parts of the library.
 	set(H2D_WITH_EXAMPLES     YES)
 	set(H2D_WITH_BENCHMARKS   YES)
@@ -89,7 +89,7 @@ set(WITH_H2D                  YES)
 set(WITH_H3D                  YES)
 	# Real/complex version of the library.
 	set(H3D_REAL              YES)
-	set(H3D_COMPLEX           YES)
+    set(H3D_COMPLEX           NO)
 	# Release and debug versions.
 	set(H3D_DEBUG             YES)
 	set(H3D_RELEASE           NO)
