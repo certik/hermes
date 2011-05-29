@@ -278,7 +278,7 @@ DETERMINE_HERMES_COMMON_RELEASE_DEBUG(H3D)
 # Find necessary packages according to the settings above.
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-find_package(PTHREAD REQUIRED)
+#find_package(PTHREAD REQUIRED)
 
 # Python
 if(WITH_PYTHON)
