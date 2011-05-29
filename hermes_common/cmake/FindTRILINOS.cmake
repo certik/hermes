@@ -30,12 +30,14 @@ ENDIF ("$ENV{MY_TRILINOS_LIB_DIRS}" STREQUAL "" OR "$ENV{MY_TRILINOS_INC_DIRS}" 
 SET(TRILINOS_INCLUDE_SEARCH_PATH
 	/usr/include
 	/usr/local/include/
+    $ENV{SPKG_LOCAL}/include/
 )
 
 SET(TRILINOS_LIB_SEARCH_PATH
 	/usr/lib64
 	/usr/lib
 	/usr/local/lib/
+    $ENV{SPKG_LOCAL}/lib/
 )
 
 FIND_PATH(AMESOS_INCLUDE_PATH       Amesos.h             ${MY_TRILINOS_INC_DIRS}  NO_DEFAULT_PATH)
